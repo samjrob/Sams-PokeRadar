@@ -1,0 +1,34 @@
+<!-- Template for showing the results. -->
+
+<!-- 
+    If you are not sure how to loop through
+    a list inside a template, take a look at
+    the first example in this page:
+    https://palletsprojects.com/p/jinja/
+-->
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Results that are close to {{ place }}</h1>
+{% if wiki_list|length > 0 %}
+<table class="table table-bordered">
+    <tbody>
+        {% for wiki in wiki_list %}
+        <tr>
+            <td>
+                <h1><a href={{ wiki.url }}>{{ wiki.title }}</a></h1><br>
+                {{ wiki.summary }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    Sorry, could not find any results for your query: <em>{{ place }}</em>.<br>
+    Please go back and try again.
+</div>
+{% endif %}
+
+{% endblock content %}

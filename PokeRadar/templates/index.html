@@ -1,0 +1,28 @@
+<!-- Template containing the form  -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{{url_for('results')}}" method="post">
+  <div class="form-group">
+      <label for="place">Place</label><br>
+      <input type="text" class="form-control form-control-lg" id="place" name="place" value="Ballard Locks, Seattle" required>
+  </div>
+  <div class="form-group">
+      <label for="num_results">Maximum number of results</label><br>
+      <input type="number" class="form-control form-control-lg" id="num_results" name="num_results" value="10" min="1" max="100">
+  </div>
+  <div class="form-group">
+      <label for="radius">Radius within which to return results (in miles)</label><br>
+      <input type="number" class="form-control form-control-lg" id="radius" name="radius" value="2" min="1" max="50">
+  </div>
+  <div class="checkbox">
+    <label>
+        <input type="checkbox" id="list_sorted" name="list_sorted">
+        <label for="list_sorted">Sort Results? (longest-article-first?)</label>
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock content %}
