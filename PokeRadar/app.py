@@ -2,7 +2,7 @@ import functions
 
 from flask import Flask, render_template, request
 
-from functions import wikipedia_locationsearch
+from functions import poke_with_ability, poke_with_type, Pokemon_Info, get_pokemon_info
 # Create an instance of Flask
 app = Flask(__name__)
 
@@ -14,18 +14,24 @@ def index():
 
 
 # Create a view function for /results
+@app.route("/pokecard", methods=['GET', 'POST'])
+def pokecard():
+    if request.method == 'POST':
+        pokemon = Pokemon_Info(get_pokemon_info(request.form["pokemon"]))
+        return render_template("pokecard.html", pokemon=pokemon)
+    else:
+        return "Error: was expecting a POST request", 400
+
+
 @app.route("/results", methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
-        place = request.form["place"]
-        max_results = int(request.form["num_results"])
-        radius = float(request.form["radius"])
         try:
-            request.form["list_sorted"]
-            sort = True
+            query = request.form["type"]
+            poke_list = poke_with_type(query)
         except KeyError:
-            sort = False
-        wiki_list = wikipedia_locationsearch(place, max_results, radius, sort)
-        return render_template("results.html", place=place, wiki_list=wiki_list)
+            query = request.form["ability"]
+            poke_list = poke_with_ability(query)
+        return render_template("results.html", query=query, poke_list=poke_list)
     else:
         return "Error: was expecting a POST request", 400

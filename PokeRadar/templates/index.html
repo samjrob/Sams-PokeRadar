@@ -3,26 +3,38 @@
 
 {% block content %}
 
-<form action="{{url_for('results')}}" method="post">
-  <div class="form-group">
-      <label for="place">Place</label><br>
-      <input type="text" class="form-control form-control-lg" id="place" name="place" value="Ballard Locks, Seattle" required>
-  </div>
-  <div class="form-group">
-      <label for="num_results">Maximum number of results</label><br>
-      <input type="number" class="form-control form-control-lg" id="num_results" name="num_results" value="10" min="1" max="100">
-  </div>
-  <div class="form-group">
-      <label for="radius">Radius within which to return results (in miles)</label><br>
-      <input type="number" class="form-control form-control-lg" id="radius" name="radius" value="2" min="1" max="50">
-  </div>
-  <div class="checkbox">
-    <label>
-        <input type="checkbox" id="list_sorted" name="list_sorted">
-        <label for="list_sorted">Sort Results? (longest-article-first?)</label>
-    </label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<form action="{{url_for('pokecard')}}" method="post">
+    <label for="pokemon"><h5>Pokémon or NationalDex Number</h5></label><br>
+    <div class="input-group mb-4">
+        <input type="text" class="form-control form-control-lg" id="pokemon" name="pokemon" placeholder="ex. Pikachu or 25" required>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
+        </div>
+    </div>
 </form>
-
+<h4>Or Search By...</h4>
+<div class="row">
+    <div class="col-md-6">
+        <form action="{{url_for('results')}}" method="post">
+        <label for="type"><h5>Pokémon Type</h5></label><br>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" id="type" name="type" placeholder="Psychic" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form action="{{url_for('results')}}" method="post">
+        <label for="ability"><h5>Pokémon Ability</h5></label><br>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" id="ability" name="ability" placeholder="Sturdy" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
 {% endblock content %}

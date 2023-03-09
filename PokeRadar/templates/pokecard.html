@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-4 offset-4 text-center">
+        <div class="border border-dark border-5"><img class="img-responsive" src="{{ pokemon.sprite() }}" width="192" height="192"></div>
+    </div>
+    <div class="col-8 offset-2 text-center">
+        <h1>{{ pokemon.name().upper() }} (#{{ pokemon.id() }})</h1>
+    </div>
+</div>
+<div class="row mt-2 center">
+    <div class="col-md-3 border border-dark border-3 text-center offset-1">Pokémon Type(s):<br>{{ pokemon.type().upper() }} </div>
+    <div class="col-md-1 border border-dark border-3 text-center">Hp:<br>{{ pokemon.stats().0 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">Atk:<br>{{ pokemon.stats().1 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">Def:<br>{{ pokemon.stats().2 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">SpAtk:<br>{{ pokemon.stats().3 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">SpDef:<br>{{ pokemon.stats().4 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">Spd:<br>{{ pokemon.stats().5 }}</div>
+    <div class="col-md-1 border border-dark border-3 text-center">Total:<br>{{ pokemon.stats().6 }}</div>
+</div>
+<div class="row center">
+    {% for key, value in pokemon.abilities().items() %}
+    <div class="col-md-10 border border-dark border-3 text-center offset-1">Pokémon Ability:<br>
+        <p class="fw-bold">{{ key }}</p>{{ value }}</div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

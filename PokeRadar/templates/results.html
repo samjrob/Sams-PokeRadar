@@ -1,32 +1,26 @@
-<!-- Template for showing the results. -->
-
-<!-- 
-    If you are not sure how to loop through
-    a list inside a template, take a look at
-    the first example in this page:
-    https://palletsprojects.com/p/jinja/
--->
 {% extends "base.html" %}
 
 {% block content %}
 
-<h1>Results that are close to {{ place }}</h1>
-{% if wiki_list|length > 0 %}
+<h1>Showing Results for {{ query }}</h1>
+{% if poke_list|length > 0 %}
 <table class="table table-bordered">
     <tbody>
-        {% for wiki in wiki_list %}
-        <tr>
-            <td>
-                <h1><a href={{ wiki.url }}>{{ wiki.title }}</a></h1><br>
-                {{ wiki.summary }}
-            </td>
-        </tr>
+        {% for pokemon in poke_list %}
+        <form action="{{url_for('pokecard')}}" method="post">
+            <div class="input-group mt-4">
+                <input type="text" class="form-control form-control-lg" id="pokemon" name="pokemon" value="{{ pokemon }}" readonly>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary btn-lg rounded-0">Get Pokecard</button>
+                </div>
+            </div>
+        </form>
         {% endfor %}
     </tbody>
 </table>
 {% else %}
 <div class="alert alert-warning" role="alert">
-    Sorry, could not find any results for your query: <em>{{ place }}</em>.<br>
+    Sorry, could not find any results for your query: <em>{{ query }}</em>.<br>
     Please go back and try again.
 </div>
 {% endif %}
