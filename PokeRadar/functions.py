@@ -128,8 +128,14 @@ class Pokemon_Info:
 
     def abilities(self):
         ability_to_desc = {}
+        lang_index = 0
         for ability in self.info["abilities"]:
             abl_desc = get_ability_info(ability["ability"]["name"])
-            desc = abl_desc["effect_entries"][1]["effect"]
-            ability_to_desc[ability["ability"]["name"].replace("-", " ").upper()] = desc
+            while abl_desc["effect_entries"][lang_index]["language"]["name"] != "en":
+                lang_index += 1
+            desc = abl_desc["effect_entries"][lang_index]["effect"]
+            ability_name = str(ability["ability"]["name"].replace("-", " ").upper())
+            if ability["is_hidden"]:
+                ability_name += " (Hidden)"
+            ability_to_desc[ability_name] = desc
         return ability_to_desc

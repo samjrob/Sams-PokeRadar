@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% if pokemon.info is not none %}
 <div class="row">
     <div class="col-4 offset-4 text-center">
         <div class="border border-dark border-5"><img class="img-responsive" src="{{ pokemon.sprite() }}" width="192" height="192"></div>
@@ -26,5 +27,11 @@
         <p class="fw-bold">{{ key }}</p>{{ value }}</div>
     {% endfor %}
 </div>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    Sorry, but there might not be a Pokémon by that name.<br>
+    Please go back and try again.
+</div>
+{% endif %}
 
 {% endblock content %}
