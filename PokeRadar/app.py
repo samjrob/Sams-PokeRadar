@@ -1,19 +1,15 @@
-import functions
-
 from flask import Flask, render_template, request
 
 from functions import poke_with_ability, poke_with_type, Pokemon_Info, get_pokemon_info
-# Create an instance of Flask
+
 app = Flask(__name__)
 
 
-# Create a view function for /
 @app.route("/")
 def index():
     return render_template("index.html")
 
 
-# Create a view function for /results
 @app.route("/pokecard", methods=['GET', 'POST'])
 def pokecard():
     if request.method == 'POST':

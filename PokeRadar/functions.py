@@ -90,12 +90,12 @@ def sort_by_exp_gain(poke_list):
     except TypeError:
         print("There might not be a Pokemon with one of those names")
         return None
-    sorted_exp_dict = sorted(exp_dict.items(), key=get_exp, reverse=True)
+    sorted_exp_dict = sorted(exp_dict.items(), key=get_effect(), reverse=True)
     return sorted_exp_dict
 
 
-def get_exp(poke_exp):
-    return poke_exp[1]
+def get_effect(poke_list):
+    return poke_list[1]
 
 
 class Pokemon_Info:
@@ -114,6 +114,32 @@ class Pokemon_Info:
             types += " " + poke_type["type"]["name"] + " "
         return types
 
+    def type_interaction(self):
+        type_list = {}
+        im_re_we = {"Immune To": [], "Resists": [], "Weak To": []}
+        for poke_type in self.info["types"]:
+            type_info = get_type_info(poke_type["type"]["name"])
+            for immunity in type_info["damage_relations"]["no_damage_from"]:
+                type_name = immunity["name"]
+                type_list[type_name] = type_list.get(type_name, 1) * 0
+            for resistance in type_info["damage_relations"]["half_damage_from"]:
+                type_name = resistance["name"]
+                type_list[type_name] = type_list.get(type_name, 1) * 0.5
+            for weakness in type_info["damage_relations"]["double_damage_from"]:
+                type_name = weakness["name"]
+                type_list[type_name] = type_list.get(type_name, 1) * 2
+        for type_name in type_list.keys():
+            if type_list[type_name] == 0:
+                type_interaction = type_name, type_list[type_name]
+                im_re_we["Immune To"].append(type_interaction)
+            elif type_list[type_name] < 1:
+                type_interaction = type_name, type_list[type_name]
+                im_re_we["Resists"].append(type_interaction)
+            elif type_list[type_name] > 1:
+                type_interaction = type_name, type_list[type_name]
+                im_re_we["Weak To"].append(type_interaction)
+        return im_re_we
+
     def id(self):
         return self.info["id"]
 
@@ -128,14 +154,25 @@ class Pokemon_Info:
 
     def abilities(self):
         ability_to_desc = {}
-        lang_index = 0
         for ability in self.info["abilities"]:
+            lang_index = 0
             abl_desc = get_ability_info(ability["ability"]["name"])
-            while abl_desc["effect_entries"][lang_index]["language"]["name"] != "en":
-                lang_index += 1
-            desc = abl_desc["effect_entries"][lang_index]["effect"]
+            if len(abl_desc["effect_entries"]) > 0:
+                while abl_desc["effect_entries"][lang_index]["language"]["name"] != "en":
+                    lang_index += 1
+                desc = abl_desc["effect_entries"][lang_index]["effect"]
+            elif len(abl_desc["flavor_text_entries"]) > 0:
+                while abl_desc["flavor_text_entries"][lang_index]["language"]["name"] != "en":
+                    lang_index += 1
+                desc = abl_desc["flavor_text_entries"][lang_index]["flavor_text"]
+            else:
+                desc = "Could Not Find Information on this Ability."
             ability_name = str(ability["ability"]["name"].replace("-", " ").upper())
             if ability["is_hidden"]:
                 ability_name += " (Hidden)"
             ability_to_desc[ability_name] = desc
         return ability_to_desc
+
+
+    def exp(self):
+        return self.info["base_experience"]
