@@ -4,7 +4,9 @@
 {% block content %}
 
 <form action="{{url_for('pokecard')}}" method="post">
-    <label for="pokemon"><h5>Pokémon or NationalDex Number</h5></label><br>
+    <label for="pokemon"><h5>Pokémon or NationalDex Number</h5></label>
+    <span data-toggle='tooltip' title='If a Pokémon has multiple forms the form must be specified i.e. mimikyu disguised'
+          class="border border-dark border-1 rounded-circle">&nbsp; i &nbsp;</span><br>
     <div class="input-group mb-4">
         <input type="text" class="form-control form-control-lg" id="pokemon" name="pokemon" placeholder="ex. Pikachu or 25" required>
         <div class="input-group-append">
@@ -30,6 +32,30 @@
         <label for="ability"><h5>Pokémon Ability</h5></label><br>
         <div class="input-group mb-3">
             <input type="text" class="form-control form-control-lg" id="ability" name="ability" placeholder="Sturdy" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col-md-6">
+        <form action="{{url_for('results')}}" method="post">
+        <label for="type"><h5>Pokémon Move</h5></label><br>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" id="move" name="move" placeholder="Quick Attack" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
+            </div>
+        </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form action="{{url_for('results')}}" method="post">
+        <label for="ability"><h5>Pokémon Generation</h5></label><br>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg" id="gen" name="gen" placeholder="'generation iv' or 4" required>
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary btn-lg rounded-0">Search</button>
             </div>

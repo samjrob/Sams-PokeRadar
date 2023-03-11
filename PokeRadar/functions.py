@@ -43,6 +43,14 @@ def get_type_info(wanted_type):
     return get_poke_data("type/" + str(wanted_type).lower())
 
 
+def get_move_learn_list(wanted_move):
+    return get_poke_data("move/" + wanted_move.strip().replace(" ", "-").lower())
+
+
+def get_poke_in_generation(wanted_gen):
+    return get_poke_data("generation/" + wanted_gen.strip().replace(" ", "-").lower())
+
+
 def name_to_id(pokemon_name):
     try:
         print(get_pokemon_info(pokemon_name)["id"])
@@ -74,6 +82,28 @@ def poke_with_type(poke_type):
         type_list = []
         for pokemon in data["pokemon"]:
             type_list.append(pokemon["pokemon"]["name"])
+    except TypeError:
+        return []
+    return type_list
+
+
+def poke_with_move(poke_move):
+    try:
+        data = get_move_learn_list(poke_move)
+        type_list = []
+        for pokemon in data["learned_by_pokemon"]:
+            type_list.append(pokemon["name"])
+    except TypeError:
+        return []
+    return type_list
+
+
+def poke_in_generation(poke_gen):
+    try:
+        data = get_poke_in_generation(poke_gen)
+        type_list = []
+        for pokemon in data["pokemon_species"]:
+            type_list.append(pokemon["name"])
     except TypeError:
         return []
     return type_list
@@ -172,7 +202,6 @@ class Pokemon_Info:
                 ability_name += " (Hidden)"
             ability_to_desc[ability_name] = desc
         return ability_to_desc
-
 
     def exp(self):
         return self.info["base_experience"]
