@@ -18,19 +18,6 @@ def get_poke_data(wanted_info):
     return json.loads(data)
 
 
-def get_pokemon_list(limit=100000, offset=0):
-    pokemon_name_list = []
-    args = {"limit": limit, "offset": offset}
-    paramstr = "pokemon?" + urllib.parse.urlencode(args)
-    full_pokemon_list = get_poke_data(paramstr)["results"]
-    if len(full_pokemon_list) == 0:
-        print("There might be no Pokemon within those bounds")
-        return None
-    for pokemon in full_pokemon_list:
-        pokemon_name_list.append(pokemon["name"])
-    return pokemon_name_list
-
-
 def get_pokemon_info(wanted_pokemon):
     return get_poke_data("pokemon/" + str(wanted_pokemon).strip().replace(" ", "-").lower())
 
@@ -108,20 +95,34 @@ def poke_in_generation(poke_gen):
         return []
     return type_list
 
-
-def sort_by_exp_gain(poke_list):
-    exp_dict = {}
-    try:
-        for pokemon in poke_list:
-            if get_pokemon_info(pokemon)["base_experience"] is not None:
-                exp_dict[pokemon.lower()] = get_pokemon_info(pokemon)["base_experience"]
-            elif get_pokemon_info(pokemon)["base_experience"] is None:
-                exp_dict[pokemon.lower()] = 0
-    except TypeError:
-        print("There might not be a Pokemon with one of those names")
-        return None
-    sorted_exp_dict = sorted(exp_dict.items(), key=get_effect(), reverse=True)
-    return sorted_exp_dict
+def poke_forms():
+    form_dict = {"mimikyu": ["mimikyu-disguised", "mimikyu-busted"], "oricorio": ["oricorio-baile", "oricorio-pom-pom",
+                    "oricorio-pau", "oricorio-sensu"], "shaymin": ["shaymin-land", "shaymin-sky"],
+                    "deoxys": ["deoxys-normal", "deoxys-attack", "deoxys-defense", "deoxys-speed"],
+                    "tauros": ["tauros-base-form", "tauros-paldea-combat-breed", "tauros-paldea-blaze-breed",
+                    "tauros-paldea-aqua-breed"], "squawkabilly": ["squawkabilly-base-form", "squawkabilly-blue-plumage",
+                    "squawkabilly-yellow-plumage", "squawkabilly-white-plumage"], "pikachu":
+                    ["pikachu-base-form", "pikachu-original-cap", "pikachu-hoenn-cap", "pikachu-sinnoh-cap", "pikachu-unova-cap",
+                    "pikachu-kalos-cap", "pikachu-alola-cap", "pikachu-partner-cap"], "castform": ["castform-base-form",
+                    "castform-sunny", "castform-rainy", "castform-snowy"], "wormadam": ["wormadam-plant",
+                    "wormadam-sandy", "wormadam-trash"], "tatsugiri": ["tatsugiri-base-form", "tatsugiri-droopy",
+                    "tatsugiri-stretchy"], "rotom": ["rotom-base-form", "rotom-heat", "rotom-wash", "rotom-frost", "rotom-fan",
+                    "rotom-mow"], "basculegion": ["basculegion-female", "basculegion-male"], "basculin":
+                    ["basculin-red-striped", "basculin-blue-striped", "basculin-white-striped"], "darmanitan":
+                    ["darmanitan-standard", "darmanitan-zen"], "darmanitan-galar": ["darmanitan-galar-standard",
+                    "darmanitan-galar-zen"], "kyurem": ["kyurem-base-form", "kyurem-black", "kyurem-white"], "keldeo":
+                    ["keldeo-ordinary", "keldeo-resolute"], "meloetta": ["meloetta-aria", "meloetta-pirouette"],
+                    "greninja": ["greninja-base-form", "greninja-battle-bond", "greninja-ash"], "aegislash": ["aegislash-shield",
+                    "aegislash-blade"], "zygarde": ["zygarde-50", "zygarde-10-power-construct",
+                    "zygarde-50-power-construct", "zygarde-complete"], "lycanroc": ["lycanroc-midday", "lycanroc-dusk",
+                    "lycanroc-midnight"], "wishiwashi": ["wishiwashi-solo", "wishiwashi-school"], "minior":
+                    ["minior-red-meteor", "minior-orange-meteor", "minior-yellow-meteor", "minior-green-meteor",
+                    "minior-blue-meteor", "minior-indigo-meteor", "minior-violet-meteor", "minior-red", "minior-orange",
+                    "minior-yellow", "minior-green", "minior-blue", "minior-indigo", "minior-violet"], "necrozma":
+                    ["necrozma-base-form", "necrozma-dusk", "necrozma-dawn"], "magearna": ["magearna-base-form", "magearna-original"],
+                    "toxtricity": ["toxtricity-amped", "toxtricity-low-key"], "eiscue": ["eiscue-ice", "eiscue-noice"], "morpeko":
+                    ["morpeko-full-belly", "morpeko-hangry"], "urshifu": ["urshifu-single-strike", "urshifu-rapid-strike"], "palafin": ["palafin-base-form", "palafin-hero"]}
+    return form_dict
 
 
 def get_effect(poke_list):

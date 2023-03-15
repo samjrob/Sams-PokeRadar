@@ -2,7 +2,14 @@
 
 {% block content %}
 
+{% if form_message %}
+<div class="alert alert-warning" role="alert">
+    Looks like the Pokémon <em>{{ search }}</em> has multiple forms.<br>
+    Please select the desired form.
+</div>
+{% else %}
 <h1>Showing Results for {{ search }}</h1>
+{% endif %}
 {% if poke_list|length > 0 %}
 <table class="table table-bordered">
     <tbody>
@@ -20,7 +27,7 @@
 </table>
 {% else %}
 <div class="alert alert-warning" role="alert">
-    Sorry, could not find any results for your query: <em>{{ query }}</em>.<br>
+    Sorry, could not find any results for your query: <em>{{ search }}</em>.<br>
     Please go back and try again.
 </div>
 {% endif %}
