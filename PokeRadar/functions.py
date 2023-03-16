@@ -1,5 +1,4 @@
-import urllib.parse, urllib.request, urllib.error, json
-import pprint
+import urllib.request, urllib.error, json
 
 
 def get_poke_data(wanted_info):
@@ -36,20 +35,6 @@ def get_move_learn_list(wanted_move):
 
 def get_poke_in_generation(wanted_gen):
     return get_poke_data("generation/" + wanted_gen.strip().replace(" ", "-").lower())
-
-
-def name_to_id(pokemon_name):
-    try:
-        print(get_pokemon_info(pokemon_name)["id"])
-    except TypeError:
-        print("There might not be a Pokemon with that name")
-
-
-def id_to_name(pokemon_id):
-    try:
-        print(get_pokemon_info(pokemon_id)["forms"][0]["name"])
-    except TypeError:
-        print("There might not be a Pokemon with that id")
 
 
 def poke_with_ability(ability):
@@ -95,33 +80,43 @@ def poke_in_generation(poke_gen):
         return []
     return type_list
 
+
 def poke_forms():
-    form_dict = {"mimikyu": ["mimikyu-disguised", "mimikyu-busted"], "oricorio": ["oricorio-baile", "oricorio-pom-pom",
-                    "oricorio-pau", "oricorio-sensu"], "shaymin": ["shaymin-land", "shaymin-sky"],
-                    "deoxys": ["deoxys-normal", "deoxys-attack", "deoxys-defense", "deoxys-speed"],
-                    "tauros": ["tauros-base-form", "tauros-paldea-combat-breed", "tauros-paldea-blaze-breed",
-                    "tauros-paldea-aqua-breed"], "squawkabilly": ["squawkabilly-base-form", "squawkabilly-blue-plumage",
-                    "squawkabilly-yellow-plumage", "squawkabilly-white-plumage"], "pikachu":
-                    ["pikachu-base-form", "pikachu-original-cap", "pikachu-hoenn-cap", "pikachu-sinnoh-cap", "pikachu-unova-cap",
-                    "pikachu-kalos-cap", "pikachu-alola-cap", "pikachu-partner-cap"], "castform": ["castform-base-form",
-                    "castform-sunny", "castform-rainy", "castform-snowy"], "wormadam": ["wormadam-plant",
-                    "wormadam-sandy", "wormadam-trash"], "tatsugiri": ["tatsugiri-base-form", "tatsugiri-droopy",
-                    "tatsugiri-stretchy"], "rotom": ["rotom-base-form", "rotom-heat", "rotom-wash", "rotom-frost", "rotom-fan",
-                    "rotom-mow"], "basculegion": ["basculegion-female", "basculegion-male"], "basculin":
-                    ["basculin-red-striped", "basculin-blue-striped", "basculin-white-striped"], "darmanitan":
-                    ["darmanitan-standard", "darmanitan-zen"], "darmanitan-galar": ["darmanitan-galar-standard",
-                    "darmanitan-galar-zen"], "kyurem": ["kyurem-base-form", "kyurem-black", "kyurem-white"], "keldeo":
-                    ["keldeo-ordinary", "keldeo-resolute"], "meloetta": ["meloetta-aria", "meloetta-pirouette"],
-                    "greninja": ["greninja-base-form", "greninja-battle-bond", "greninja-ash"], "aegislash": ["aegislash-shield",
-                    "aegislash-blade"], "zygarde": ["zygarde-50", "zygarde-10-power-construct",
-                    "zygarde-50-power-construct", "zygarde-complete"], "lycanroc": ["lycanroc-midday", "lycanroc-dusk",
-                    "lycanroc-midnight"], "wishiwashi": ["wishiwashi-solo", "wishiwashi-school"], "minior":
-                    ["minior-red-meteor", "minior-orange-meteor", "minior-yellow-meteor", "minior-green-meteor",
-                    "minior-blue-meteor", "minior-indigo-meteor", "minior-violet-meteor", "minior-red", "minior-orange",
-                    "minior-yellow", "minior-green", "minior-blue", "minior-indigo", "minior-violet"], "necrozma":
-                    ["necrozma-base-form", "necrozma-dusk", "necrozma-dawn"], "magearna": ["magearna-base-form", "magearna-original"],
-                    "toxtricity": ["toxtricity-amped", "toxtricity-low-key"], "eiscue": ["eiscue-ice", "eiscue-noice"], "morpeko":
-                    ["morpeko-full-belly", "morpeko-hangry"], "urshifu": ["urshifu-single-strike", "urshifu-rapid-strike"], "palafin": ["palafin-base-form", "palafin-hero"]}
+    form_dict = {"mimikyu": ["mimikyu-disguised", "mimikyu-busted"],
+                 "oricorio": ["oricorio-baile", "oricorio-pom-pom", "oricorio-pau", "oricorio-sensu"],
+                 "shaymin": ["shaymin-land", "shaymin-sky"],
+                 "deoxys": ["deoxys-normal", "deoxys-attack", "deoxys-defense", "deoxys-speed"],
+                 "tauros-paldea": ["tauros-paldea-combat-breed", "tauros-paldea-blaze-breed", "tauros-paldea-aqua-breed"],
+                 "squawkabilly": ["squawkabilly-base-form", "squawkabilly-blue-plumage", "squawkabilly-yellow-plumage",
+                                  "squawkabilly-white-plumage"],
+                 "pikachu": ["pikachu-base-form", "pikachu-original-cap", "pikachu-hoenn-cap", "pikachu-sinnoh-cap",
+                             "pikachu-unova-cap", "pikachu-kalos-cap", "pikachu-alola-cap", "pikachu-partner-cap"],
+                 "castform": ["castform-base-form", "castform-sunny", "castform-rainy", "castform-snowy"],
+                 "wormadam": ["wormadam-plant", "wormadam-sandy", "wormadam-trash"],
+                 "tatsugiri": ["tatsugiri-base-form", "tatsugiri-droopy", "tatsugiri-stretchy"],
+                 "rotom": ["rotom-base-form", "rotom-heat", "rotom-wash", "rotom-frost", "rotom-fan", "rotom-mow"],
+                 "basculegion": ["basculegion-female", "basculegion-male"],
+                 "basculin": ["basculin-red-striped", "basculin-blue-striped", "basculin-white-striped"],
+                 "darmanitan": ["darmanitan-standard", "darmanitan-zen"],
+                 "darmanitan-galar": ["darmanitan-galar-standard", "darmanitan-galar-zen"],
+                 "kyurem": ["kyurem-base-form", "kyurem-black", "kyurem-white"],
+                 "keldeo": ["keldeo-ordinary", "keldeo-resolute"],
+                 "meloetta": ["meloetta-aria", "meloetta-pirouette"],
+                 "greninja": ["greninja-base-form", "greninja-battle-bond", "greninja-ash"],
+                 "aegislash": ["aegislash-shield", "aegislash-blade"],
+                 "zygarde": ["zygarde-50", "zygarde-10-power-construct", "zygarde-50-power-construct", "zygarde-complete"],
+                 "lycanroc": ["lycanroc-midday", "lycanroc-dusk", "lycanroc-midnight"],
+                 "wishiwashi": ["wishiwashi-solo", "wishiwashi-school"],
+                 "minior": ["minior-red-meteor", "minior-orange-meteor", "minior-yellow-meteor", "minior-green-meteor",
+                            "minior-blue-meteor", "minior-indigo-meteor", "minior-violet-meteor", "minior-red",
+                            "minior-orange", "minior-yellow", "minior-green", "minior-blue", "minior-indigo", "minior-violet"],
+                 "necrozma": ["necrozma-base-form", "necrozma-dusk", "necrozma-dawn"],
+                 "magearna": ["magearna-base-form", "magearna-original"],
+                 "toxtricity": ["toxtricity-amped", "toxtricity-low-key"],
+                 "eiscue": ["eiscue-ice", "eiscue-noice"],
+                 "morpeko": ["morpeko-full-belly", "morpeko-hangry"],
+                 "urshifu": ["urshifu-single-strike", "urshifu-rapid-strike"],
+                 "palafin": ["palafin-base-form", "palafin-hero"]}
     return form_dict
 
 
@@ -160,14 +155,12 @@ class Pokemon_Info:
                 type_name = weakness["name"]
                 type_list[type_name] = type_list.get(type_name, 1) * 2
         for type_name in type_list.keys():
+            type_interaction = type_name, type_list[type_name]
             if type_list[type_name] == 0:
-                type_interaction = type_name, type_list[type_name]
                 im_re_we["Immune To"].append(type_interaction)
             elif type_list[type_name] < 1:
-                type_interaction = type_name, type_list[type_name]
                 im_re_we["Resists"].append(type_interaction)
             elif type_list[type_name] > 1:
-                type_interaction = type_name, type_list[type_name]
                 im_re_we["Weak To"].append(type_interaction)
         return im_re_we
 
